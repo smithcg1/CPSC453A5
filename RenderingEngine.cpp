@@ -156,10 +156,13 @@ bool RenderingEngine::CheckGLErrors() {
 }
 
 void RenderingEngine::zoom(double direction){
-	if(direction == 1)
+	float cameraMin = 10;
+	float cameraMax = 400;
+
+	if(cameraMin <= cameraR && direction == 1)
 		cameraR = cameraR*0.9;
 
-	if(direction == -1)
+	if(cameraR <= cameraMax && direction == -1)
 		cameraR = cameraR*1.1;
 
 	updateEye();
@@ -170,7 +173,9 @@ void RenderingEngine::rotate(double xChange, double yChange){
 	float yChangeRads = yChange*(M_PI/180);
 
 	cameraTheta += xChangeRads;
-	cameraPhi += yChangeRads;
+
+	if(0 < cameraPhi+yChangeRads && cameraPhi+yChangeRads < M_PI)
+		cameraPhi += yChangeRads;
 
 	updateEye();
 }

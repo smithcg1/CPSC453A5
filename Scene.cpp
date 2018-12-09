@@ -30,7 +30,7 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//createPlanet(space, "MySpace.obj", "8k_stars.jpg", 			500,		0,		0,			0);
 
 	createPlanet(sun, 	"MySun.obj", "8k_sun.jpg", 				695508, 	24.47, 	0, 			0);
-	//createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	6371, 		1, 		149600000, 	20);
+	createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	6371, 		1, 		149600000, 	20);
 	//createPlanet(eMoon, "MyEMoon.obj", "8k_moon.jpg", 			1737, 		27.3, 	384400, 	1); //384400, 	27
 	//createPlanet(mars, "MyMars.obj", "8k_mars.jpg", 			3390, 		24.66, 	227900000, 	687);
 }

@@ -125,7 +125,7 @@ static void KeyCallbackMouseMove(GLFWwindow* window, double xpos, double ypos)
 		double yChange = -(ypos - oldy);
 
 		//std::cout << "X change: " << xChange << "   Y change: " << yChange << std::endl;
-		currentEngine->rotate(-xChange, -yChange);
+		currentEngine->rotate(-xChange, yChange);
 	}
 /*
 	else if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2)){

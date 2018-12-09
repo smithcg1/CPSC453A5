@@ -53,7 +53,10 @@ void Geometry::createMatrices(float planetR, float rotationPeriod, long int orbi
 
 	orbitalTheta = (M_PI/orbitPeriod);
 	orbitalDist = logn(3.0f, orbitR);
-	translationMatrix = glm::transpose(glm::mat4{{1.0f, 0.0f, 0.0f, 0.0f},
+	if(orbitR == 0)
+		orbitalDist = 0;
+
+	translationMatrix = glm::transpose(glm::mat4{{1.0f, 0.0f, 0.0f, orbitalDist},
 													{0.0f, 1.0f, 0.0f, 0.0f},
 													{0.0f, 0.0f, 1.0f, 0.0f},
 													{0.0f, 0.0f, 0.0f, 1.0f}});
