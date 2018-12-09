@@ -49,6 +49,13 @@ public:
 	void updateEye();
 	void updateRotation(Geometry &g, float t);
 
+	std::string eyeTarget;
+	float eyeTargetX = 0.0;
+	float eyeTargetY = 0.0;
+	float eyeTargetZ = 0.0;
+	glm::vec3 at = glm::vec3(0.0f, 0.0f, 0.0f);
+	void changeFocus(std::string target);
+
 	//Pointer to the current shader program being used to render
 	GLuint shaderProgram;
 };

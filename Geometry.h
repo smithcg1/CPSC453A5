@@ -53,11 +53,12 @@ public:
 	float theta = 0;
 	float orbitalDist = 0;
 	float orbitalTheta = 0;
+	float orbitalIncl = 90;
 	float axialTilt = 90;
 
 	void updateTranslation(float t, glm::mat4 translationMatrix);
 
-	void createMatrices(float tilt, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod);
+	void createMatrices(float tilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod);
 	void setTexture(std::string textureName);
 	void updateRotation(float t);
 	void updateTranslation(float t);

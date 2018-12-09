@@ -25,7 +25,7 @@ RenderingEngine::RenderingEngine() {
 	}
 
 	glm::vec3 eye = {cameraR, 0.0f, 0.0f};
-	glm::vec3 at = {0.0f, 0.0f, 0.0f};
+	//glm::vec3 at = {0.0f, 0.0f, 0.0f};
 	glm::vec3 up = {0.0f, 0.0f, 1.0f};
 	viewMatrix = glm::lookAt(eye, at, up);
 
@@ -45,6 +45,7 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
+	updateEye();
 	time += 0.01;
 
 	//Clears the screen to a dark grey background
@@ -56,9 +57,13 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 	glUseProgram(shaderProgram);
 
 	for (Geometry& g : objects) {
+		if(g.name == eyeTarget){
+			//eyeTargetX = g.
+		}
+
 		if(g.name == "eMoon"){
 			for (Geometry& g2 : objects) {
-				if(g2.name == "sun"){
+				if(g2.name == "earth"){
 					g.parent = &g2;
 				}
 			}
@@ -104,11 +109,6 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		}*/
 
 
-
-
-
-
-
 		glBindVertexArray(g.vao);
 		glDrawArrays(g.drawMode, 0, g.verts.size());
 
@@ -147,7 +147,7 @@ void RenderingEngine::assignBuffers(Geometry& geometry) {
 }
 
 void RenderingEngine::setBufferData(Geometry& geometry) {
-	//Send geometry to the GPU
+	//Send geometry to the GPUat
 	//Must be called whenever anything is updated about the object
 	glBindBuffer(GL_ARRAY_BUFFER, geometry.vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * geometry.verts.size(), geometry.verts.data(), GL_STATIC_DRAW);
@@ -213,7 +213,7 @@ void RenderingEngine::rotate(double xChange, double yChange){
 	if(0 < cameraPhi+yChangeRads && cameraPhi+yChangeRads < M_PI)
 		cameraPhi += yChangeRads;
 
-	updateEye();
+	//updateEye();
 }
 
 void RenderingEngine::updateEye(){
@@ -222,12 +222,12 @@ void RenderingEngine::updateEye(){
 	cameraZ = cameraR*cos(cameraPhi);
 
 	glm::vec3 eye = {cameraX, cameraY, cameraZ};
-	glm::vec3 at = {0.0f, 0.0f, 0.0f};
+	//glm::vec3 at = {eyeTargetX, eyeTargetY, eyeTargetZ};
 	glm::vec3 up = {0.0f, 0.0f, 1.0f};
 	viewMatrix = glm::lookAt(eye, at, up);
 }
 
-void RenderingEngine::updateRotation(Geometry &g, float t){
-
+void RenderingEngine::changeFocus(std::string target){
+	eyeTarget = target;
 }
 
