@@ -59,7 +59,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 		//Set which texture unit the texture is bound to
 		glActiveTexture(GL_TEXTURE0);
 		//Bind the texture to GL_TEXTURE0
-		glBindTexture(GL_TEXTURE, g.texture.textureID);
+		glBindTexture(GL_TEXTURE_2D, g.texture.textureID);
 		//Get identifier for uniform
 		GLuint uniformLocation = glGetUniformLocation(shaderProgram, "imageTexture");
 		//Load texture unit number into uniform
@@ -71,11 +71,10 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 		glm::mat4 transformMatrix = perspectiveMatrix * viewMatrix * modelMatrix;
 
 		GLuint transformLocation = glGetUniformLocation(shaderProgram, "transform");;
-		//glUniformMatrix4fv(transformLocation, 1, GL_FALSE, 	glm::value_ptr(transformMatrix));
+		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, 	glm::value_ptr(transformMatrix));
 
 		glBindVertexArray(g.vao);
 		glDrawArrays(g.drawMode, 0, g.verts.size());
-
 
 		// reset state to default (no shader or geometry bound)
 		glBindVertexArray(0);

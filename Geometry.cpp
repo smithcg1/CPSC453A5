@@ -7,6 +7,7 @@
 
 #include "Geometry.h"
 #include <vector>
+#include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -65,7 +66,7 @@ void Geometry::setTexture(std::string textureName){
 	int n = textureName.length();
 	char char_array_textureName[n+1];
 	strcpy(char_array_textureName, textureName.c_str());
-	InitializeTexture(&texture, char_array_textureName, GL_TEXTURE);
+	InitializeTexture(&texture, char_array_textureName, GL_TEXTURE_2D);
 }
 
 void Geometry::updateRotation(float t){

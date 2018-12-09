@@ -21,8 +21,8 @@ void main()
 {
     // assign vertex position without modification
     vec4 transformedVertex = transform*VertexPosition;
-   	gl_Position = VertexPosition;
-	//gl_Position = transformedVertex;
+   	//gl_Position = VertexPosition;
+	gl_Position = transformedVertex;
 
     // assign output colour to be interpolated
     uv = VertexUV;
