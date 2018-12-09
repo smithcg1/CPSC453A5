@@ -26,12 +26,12 @@
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	generateSceneGraph();
-	//Geometry object, Texture, planetR, rotationPeriod, orbitR, orbitPeriod
-	//createPlanet(space, "MySpace.obj", "8k_stars.jpg", 			500,		0,		0,			0);
-	createPlanet(sun, 	"MySun.obj", "8k_sun.jpg", 				695508, 	24.47, 	0, 			0);
-	createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	6371, 		1, 		149600000, 	20);
-	createPlanet(eMoon, "MyEMoon.obj", "8k_moon.jpg", 			1737, 		27.3, 	384400, 	1); //384400, 	27
-	//createPlanet(mars, "MyMars.obj", "8k_mars.jpg", 			3390, 		24.66, 	227900000, 	687);
+	//	Geometry object, Texture, axialTilt, planetR, rotationPeriod, orbitR, orbitPeriod
+	//createPlanet(space, "MySpace.obj", "8k_stars.jpg", 			0.0,	500,		0,		0,			0);
+	createPlanet(sun, 	"MySun.obj", "8k_sun.jpg", 				0.0,	695508, 	24.47, 	0, 			0);
+	createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	23.44,	6371, 		1, 		149600000, 	600); // 149600000, 	20
+	createPlanet(eMoon, "MyEMoon.obj", "8k_moon.jpg", 			1.54,	1737, 		27.3, 	384400, 	1); //384400, 	27
+	//createPlanet(mars, "MyMars.obj", "8k_mars.jpg", 			25.19,	3390, 		24.66, 	227900000, 	687);
 }
 
 Scene::~Scene() {
@@ -42,9 +42,9 @@ void Scene::displayScene() {
 	renderer->RenderScene(objects);
 }
 
-void Scene::createPlanet(Geometry &planet, std::string fileName, std::string textureName, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+void Scene::createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
 	readPlanet(planet, fileName);
-	planet.createMatrices(planetR, rotationPeriod, orbitR, orbitPeriod);
+	planet.createMatrices(axialTilt, planetR, rotationPeriod, orbitR, orbitPeriod);
 	planet.setTexture(textureName);
 	addPlanet(planet);
 }
@@ -89,12 +89,12 @@ Geometry Scene::readPlanet(Geometry &planet, std::string fileName){
 	}
 
 	fscanf (eFile, "n %f %f %f\n", &f1, &f2, &f3);
-	vertexNormals.push_back(glm::vec3(f1,f2,f3));
+	vertexNormals.push_back(glm::vec3(f1,-f3,f2));
 	//std::cout << "vn1:" << f1 << "  vn2:" << f2 << "  vn3:" << f3 << std::endl;
 
 
 	while(fscanf (eFile, "vn %f %f %f\n", &f1, &f2, &f3)){
-		vertexNormals.push_back(glm::vec3(f1,f2,f3));
+		vertexNormals.push_back(glm::vec3(f1,-f3,f2));
 		//std::cout << "vn1:" << f1 << "  vn2:" << f2 << "  vn3:" << f3 << std::endl;
 	}
 
@@ -103,6 +103,7 @@ Geometry Scene::readPlanet(Geometry &planet, std::string fileName){
 		//std::cout << remove << std::endl;
 	}
 
+	int i = 0;
   	while(fscanf (eFile, "f %i/%i/%i %i/%i/%i %i/%i/%i\n", &i1, &i2, &i3, &i4, &i5, &i6, &i7, &i8, &i9) != EOF){
 
   		planet.verts.push_back(glm::vec4(vertices[i1-1], 1.0f));
@@ -116,6 +117,14 @@ Geometry Scene::readPlanet(Geometry &planet, std::string fileName){
   		planet.normals.push_back(glm::vec4(vertexNormals[i3-1], 1.0f));
   		planet.normals.push_back(glm::vec4(vertexNormals[i6-1], 1.0f));
   		planet.normals.push_back(glm::vec4(vertexNormals[i9-1], 1.0f));
+
+  		/*
+  		std::cout << "planet.normal1x: " << planet.normals[i][0] << "  planet.normal1y: " << planet.normals[i][1] << "  planet.normal1z: " << planet.normals[i][2] << std::endl;
+  		i++;
+  		std::cout << "planet.normal2x: " << planet.normals[i][0] << "  planet.normal2y: " << planet.normals[i][1] << "  planet.normal2z: " << planet.normals[i][2] << std::endl;
+  		i++;
+  		std::cout << "planet.normal3x: " << planet.normals[i][0] << "  planet.normal3y: " << planet.normals[i][1] << "  planet.normal3z: " << planet.normals[i][2] << std::endl;
+  		i++;*/
   	}
 
 

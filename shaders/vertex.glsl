@@ -13,9 +13,13 @@ layout(location = 1) in vec2 VertexUV;
 layout(location = 2) in vec4 VertexNormal;
 
 uniform mat4 transform;		//Contains Persp*View*Model
+uniform mat4 planetRotation;	//Just planet rotation
+uniform mat4 planetTransform;	//Model matrix
 
 // output to be interpolated between vertices and passed to the fragment stage
+out vec4 position;
 out vec2 uv;
+out vec4 normal;
 
 void main()
 {
@@ -25,5 +29,7 @@ void main()
 	gl_Position = transformedVertex;
 
     // assign output colour to be interpolated
+    position = planetTransform*VertexPosition;
     uv = VertexUV;
+    normal = planetRotation*VertexNormal;
 }

@@ -58,7 +58,7 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 	for (Geometry& g : objects) {
 		if(g.name == "eMoon"){
 			for (Geometry& g2 : objects) {
-				if(g2.name == "earth"){
+				if(g2.name == "sun"){
 					g.parent = &g2;
 				}
 			}
@@ -84,6 +84,30 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 
 		GLuint transformLocation = glGetUniformLocation(shaderProgram, "transform");;
 		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, 	glm::value_ptr(transformMatrix));
+
+
+		GLuint planetRotationLocation = glGetUniformLocation(shaderProgram, "planetRotation");
+		glUniformMatrix4fv(planetRotationLocation, 1, GL_FALSE, 	glm::value_ptr(g.rotationMatrix));
+
+		GLuint planetTransformLocation = glGetUniformLocation(shaderProgram, "planetTransform");
+		glUniformMatrix4fv(planetTransformLocation, 1, GL_FALSE, 	glm::value_ptr(modelMatrix));
+
+		glm::vec4 eye = glm::vec4(cameraX,cameraY,cameraZ, 0.0f);
+		//std::cout << "X eye: " << cameraX << "Y eye: " << cameraY<< "Z eye: " << cameraZ << std::endl;
+		GLuint eyeLocation = glGetUniformLocation(shaderProgram, "eye");
+		glUniform4fv(eyeLocation, 1, 	glm::value_ptr(eye));
+
+/*
+		for(glm::vec4 normal : g.normals){
+			glm::vec4 normalTransf = g.rotationMatrix * normal;
+	  		std::cout << "planet.normal1x: " << normalTransf[0] << "  planet.normal1y: " << normalTransf[1] << "  planet.normal1z: " << normalTransf[2] << std::endl;
+		}*/
+
+
+
+
+
+
 
 		glBindVertexArray(g.vao);
 		glDrawArrays(g.drawMode, 0, g.verts.size());

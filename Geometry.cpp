@@ -36,10 +36,11 @@ Geometry::~Geometry() {
 
 
 
-void Geometry::createMatrices(float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+void Geometry::createMatrices(float tilt, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+	axialTilt = tilt;
 
 	float size = logn(637.0f, planetR);
-	std::cout << "Size Distance: " << size  <<std::endl;
+	std::cout << "Planet: " << name << "    Size: " << size << std::endl;
 	if(planetR == 500)
 		size = 500;
 	scaleMatrix = glm::transpose(glm::mat4{{size, 0.0f, 0.0f, 0.0f},
@@ -57,8 +58,8 @@ void Geometry::createMatrices(float planetR, float rotationPeriod, long int orbi
 
 
 	orbitalTheta = (M_PI/orbitPeriod);
-	orbitalDist = logn(149600000.0f, orbitR) * 30;
-	std::cout << "Orbital Distance: " << orbitalDist  <<std::endl;
+	orbitalDist = logn(149600000.0f, orbitR) * 60;
+	std::cout << "Planet: " << name << "    orbitalDist: " << orbitalDist << std::endl;
 	if(orbitR == 0){
 		orbitalDist = 0;
 		orbitalTheta = 0;
@@ -81,11 +82,19 @@ void Geometry::setTexture(std::string textureName){
 }
 
 void Geometry::updateRotation(float t){
-	rotationMatrix = glm::transpose(glm::mat4{{cos(t*theta), -sin(t*theta), 0.0f, 0.0f},
+	float tilt = axialTilt*(M_PI/180);
+	glm::mat4 axialTiltMatrix = glm::transpose(glm::mat4{{1.0f, 	0.0f , 			0.0f, 			0.0f},
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 {0.0f, 	cos(tilt), 	-sin(tilt), 	0.0f},
+														 {0.0f, 	sin(tilt), 	cos(tilt), 	0.0f},
+														{0.0f, 		0.0f, 			0.0f, 			1.0f}});
+
+	glm::mat4 spinMatrix = glm::transpose(glm::mat4{{cos(t*theta), -sin(t*theta), 0.0f, 0.0f},
 					   	 	 	 	 	 	 {sin(t*theta), cos(t*theta), 	0.0f, 0.0f},
 											 {0.0f, 0.0f, 				1.0f, 0.0f},
 											 {0.0f, 0.0f, 				0.0f, 1.0f}});
 
+
+	rotationMatrix = axialTiltMatrix*spinMatrix;
 }
 
 
@@ -99,7 +108,7 @@ void Geometry::updateTranslation(float t){
 												{0.0f, 0.0f, 0.0f, 1.0f}});
 
 	if(parent != NULL){
-		//translationMatrix = translationMatrix + parent->translationMatrix;
+		translationMatrix = translationMatrix + parent->translationMatrix;
 	}
 }
 
