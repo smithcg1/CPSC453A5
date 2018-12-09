@@ -38,13 +38,18 @@ Geometry::~Geometry() {
 
 void Geometry::createMatrices(float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
 
-	float size = logn(7.0f, planetR);
+	float size = logn(637.0f, planetR);
+	std::cout << "Size Distance: " << size  <<std::endl;
+	if(planetR == 500)
+		size = 500;
 	scaleMatrix = glm::transpose(glm::mat4{{size, 0.0f, 0.0f, 0.0f},
 											{0.0f, size, 0.0f, 0.0f},
 											{0.0f, 0.0f, size, 0.0f},
 											{0.0f, 0.0f, 0.0f, 1.0f}});
 
 	theta = (M_PI/rotationPeriod);
+	if(rotationPeriod == 0)
+		theta = 0;
 	rotationMatrix = glm::transpose(glm::mat4{{cos(theta), -sin(theta), 0.0f, 0.0f},
 					   	 	 	 	 	 	 {sin(theta), cos(theta), 	0.0f, 0.0f},
 											 {0.0f, 0.0f, 				1.0f, 0.0f},
@@ -52,9 +57,12 @@ void Geometry::createMatrices(float planetR, float rotationPeriod, long int orbi
 
 
 	orbitalTheta = (M_PI/orbitPeriod);
-	orbitalDist = logn(3.0f, orbitR);
-	if(orbitR == 0)
+	orbitalDist = logn(149600000.0f, orbitR) * 30;
+	std::cout << "Orbital Distance: " << orbitalDist  <<std::endl;
+	if(orbitR == 0){
 		orbitalDist = 0;
+		orbitalTheta = 0;
+	}
 
 	translationMatrix = glm::transpose(glm::mat4{{1.0f, 0.0f, 0.0f, orbitalDist},
 													{0.0f, 1.0f, 0.0f, 0.0f},
@@ -83,14 +91,22 @@ void Geometry::updateRotation(float t){
 
 void Geometry::updateTranslation(float t){
 	float x = orbitalDist*cos(t*orbitalTheta);
-	float y = orbitalDist*cos(t*orbitalTheta);
+	float y = orbitalDist*sin(t*orbitalTheta);
+
 	translationMatrix = glm::transpose(glm::mat4{{1.0f, 0.0f, 0.0f, x},
 												{0.0f, 1.0f, 0.0f, y},
 												{0.0f, 0.0f, 1.0f, 0.0f},
 												{0.0f, 0.0f, 0.0f, 1.0f}});
+
+	if(parent != NULL){
+		//translationMatrix = translationMatrix + parent->translationMatrix;
+	}
 }
 
 
+float Geometry::logn(float base, float num){
+	return(log(num)/log(base));
+}
 
 float Geometry::logn(float base, long int num){
 	return(log(num)/log(base));

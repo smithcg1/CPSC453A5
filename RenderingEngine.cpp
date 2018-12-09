@@ -44,7 +44,9 @@ RenderingEngine::~RenderingEngine() {
 
 }
 
-void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
+void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
+	time += 0.01;
+
 	//Clears the screen to a dark grey background
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -53,7 +55,15 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
 
-	for (const Geometry& g : objects) {
+	for (Geometry& g : objects) {
+		if(g.name == "eMoon"){
+			for (Geometry& g2 : objects) {
+				if(g2.name == "earth"){
+					g.parent = &g2;
+				}
+			}
+		}
+
 
 		//////////////////////////////Texture Code////////////////////////////////
 		//Set which texture unit the texture is bound to
@@ -66,8 +76,10 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 		glUniform1i(uniformLocation, 0);
 		//////////////////////////////Texture Code/////////////////////////////////
 
-		glm::mat4 modelMatrix = g.translationMatrix * g.rotationMatrix * g.scaleMatrix;
+		g.updateTranslation(time);
+		g.updateRotation(time);
 
+		glm::mat4 modelMatrix = g.translationMatrix * g.rotationMatrix * g.scaleMatrix;
 		glm::mat4 transformMatrix = perspectiveMatrix * viewMatrix * modelMatrix;
 
 		GLuint transformLocation = glGetUniformLocation(shaderProgram, "transform");;
@@ -156,7 +168,7 @@ bool RenderingEngine::CheckGLErrors() {
 }
 
 void RenderingEngine::zoom(double direction){
-	float cameraMin = 10;
+	float cameraMin = 0.2;
 	float cameraMax = 400;
 
 	if(cameraMin <= cameraR && direction == 1)

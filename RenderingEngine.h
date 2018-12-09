@@ -24,7 +24,7 @@ public:
 	virtual ~RenderingEngine();
 
 	//Renders each object
-	void RenderScene(const std::vector<Geometry>& objects);
+	void RenderScene(std::vector<Geometry>& objects);
 
 	//Create vao and vbos for objects
 	static void assignBuffers(Geometry& geometry);
@@ -38,7 +38,7 @@ public:
 
 	float cameraTheta = 0;			//Longitude
 	float cameraPhi = (M_PI/2);		//Latitude
-	float cameraR = 60;
+	float cameraR = 10;
 
 	float cameraX = 1.2;
 	float cameraY = 0;

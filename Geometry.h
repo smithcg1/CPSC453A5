@@ -63,6 +63,7 @@ public:
 
 	void setParent(Geometry *parentPlanet);
 
+	float logn(float base, float num);
 	float logn(float base, long int num);
 };
 
