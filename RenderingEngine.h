@@ -35,7 +35,8 @@ public:
 	bool CheckGLErrors();
 
 	float time = 0;
-	float timeInc = 0.01;
+	float timeInc = 0.03;
+	float timeFlag = 1;
 
 	float cameraTheta = 0;			//Longitude
 	float cameraPhi = (M_PI/2);		//Latitude

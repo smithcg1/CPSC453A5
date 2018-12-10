@@ -30,9 +30,15 @@ private:
 
 	Geometry space;
 	Geometry sun;
+	Geometry mercury;
+	Geometry venus;
 	Geometry earth;
 	Geometry eMoon;
 	Geometry mars;
+	Geometry jupiter;
+	Geometry saturn;
+	Geometry uranus;
+	Geometry neptune;
 
 	void createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod);
 
