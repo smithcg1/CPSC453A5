@@ -27,18 +27,18 @@
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	generateSceneGraph();
 	//	Geometry object, Texture, axialTilt, inclination, planetR, rotationPeriod, orbitR, orbitPeriod
-	createPlanet(space, "MyEarth.obj", "8k_stars.jpg", 			0.0,	0.0,	500,		0,		0,			0);
+	createPlanet(space, "MyEarth.obj", "8k_stars.jpg", 				0.0,	0.0,	500,		0,		0,			0);
 	createPlanet(sun, 	"earth64.obj", "8k_sun.jpg", 				7.25,	0.0,	695508, 	24.47, 	0, 			0);
 
-	createPlanet(mercury, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
-	//createPlanet(venus, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
-	createPlanet(earth, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	365);
-	//createPlanet(eMoon, "earth64.obj", "8k_moon.jpg", 			1.54,	5.145,	1737, 		27.3, 	384400, 	27);
-	//createPlanet(mars, "earth64.obj", "8k_mars.jpg", 			25.19,	1.85,	3390, 		24.66, 	227900000, 	687);
-	//createPlanet(jupiter, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
-	//createPlanet(saturn, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
-	//createPlanet(uranus, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
-	//createPlanet(neptune, "earth64.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
+	createPlanet(mercury, "earth64.obj", "8k_mercury.jpg", 			2.11,	7.0,	2440, 		176, 	57900000, 	88);
+	createPlanet(venus, "earth64.obj", "8k_venus_surface.jpg", 		177.4,	3.39,	6052, 		243, 	108200000, 	225);
+	createPlanet(earth, "earth64.obj", "8k_earth_daymap.jpg", 		23.44,	0.0,	6371, 		1, 		149600000, 	365);
+	createPlanet(eMoon, "earth64.obj", "8k_moon.jpg", 				1.54,	5.145,	1737, 		27.3, 	384400, 	27);
+	createPlanet(mars, "earth64.obj", "8k_mars.jpg", 				25.19,	1.85,	3390, 		24.66, 	227900000, 	687);
+	createPlanet(jupiter, "earth64.obj", "8k_jupiter.jpg", 			3.0,	1.31,	69911, 		0.41, 	778600000, 	4380);
+	createPlanet(saturn, "earth64.obj", "8k_saturn.jpg", 			26.7,	2.49,	58232, 		0.427, 	1434000000, 10585);
+	createPlanet(uranus, "earth64.obj", "2k_uranus.jpg", 			98.0,	0.77,	25362, 		0.719, 	287100000, 	30660);
+	createPlanet(neptune, "earth64.obj", "2k_neptune.jpg", 			28.32,	1.77,	24622, 		0.674, 	449500000, 	60225);
 }
 
 Scene::~Scene() {
@@ -160,9 +160,15 @@ void Scene::addPlanet(Geometry &planet){
 
 void Scene::generateSceneGraph(){
 	sun.name = "sun";
+	mercury.name = "mercury";
+	venus.name = "venus";
 	earth.name = "earth";
 	eMoon.name = "eMoon";
 	mars.name = "mars";
+	jupiter.name = "jupiter";
+	saturn.name = "saturn";
+	uranus.name = "uranus";
+	neptune.name = "neptune";
 
 	eMoon.setParent(&earth);
 }
