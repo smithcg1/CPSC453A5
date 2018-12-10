@@ -37,6 +37,7 @@ Geometry::~Geometry() {
 
 
 void Geometry::createMatrices(float tilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+	orbitalPeriod = orbitPeriod;
 	orbitalIncl = inclination;
 	axialTilt = tilt;
 
@@ -63,7 +64,7 @@ void Geometry::createMatrices(float tilt, float inclination, float planetR, floa
 											 {0.0f, 0.0f, 				0.0f, 1.0f}});
 
 
-	orbitalTheta = (M_PI/orbitPeriod);
+	orbitalTheta = (2*M_PI/orbitPeriod);
 	//rbitalDist = logn(149600000.0f, orbitR) * 30;
 
 	orbitalDist = glm::pow(orbitR/100000, 0.5);
@@ -123,8 +124,15 @@ void Geometry::updateTranslation(float t){
 
 
 	if(parent != NULL){
-		orbitMatrix = orbitMatrix * parent->translationMatrix;
+		float z = sin(t*orbitalTheta)*0.246;
+		glm::mat4 fudge = glm::transpose(glm::mat4{{0.0f, 0.0f, 0.0f, 0.0f},
+												{0.0f, 0.0f, 0.0f, 0.0f},
+												{0.0f, 0.0f, 0.0f, z},
+												{0.0f, 0.0f, 0.0f, 0.0f}});
+
+		orbitMatrix = orbitMatrix * parent->translationMatrix +fudge;
 	}
+
 
 	glm::mat4 inclinationMatrix = glm::transpose(glm::mat4{{1.0f, 	0.0f , 			0.0f, 			0.0f},
 															{0.0f, 	cos(inclination), 	-sin(inclination), 	0.0f},
@@ -142,3 +150,38 @@ float Geometry::logn(float base, float num){
 float Geometry::logn(float base, long int num){
 	return(log(num)/log(base));
 }
+
+
+
+/*
+
+orbitalTheta = t*(2*M_PI/orbitalPeriod);
+orbitalPhi = cos(orbitalTheta)*((90-orbitalIncl)*(M_PI/180));
+
+
+float x = orbitalDist*cos(orbitalTheta)*sin(orbitalPhi);;
+float y = orbitalDist*sin(orbitalTheta)*sin(orbitalPhi);
+float z = orbitalDist*cos(orbitalPhi);
+
+
+float inclination = orbitalIncl*(M_PI/180);
+glm::mat4 orbitMatrix = glm::transpose(glm::mat4{{1.0f, 0.0f, 0.0f, x},
+												{0.0f, 1.0f, 0.0f, y},
+												{0.0f, 0.0f, 1.0f, z},
+												{0.0f, 0.0f, 0.0f, 1.0f}});
+
+
+
+if(parent != NULL){
+	orbitMatrix = orbitMatrix * parent->translationMatrix;
+}
+
+/*
+float inclineTime = sin((t*2*M_PI)/orbitalPeriod)*inclination;
+
+glm::mat4 inclinationMatrix = glm::transpose(glm::mat4{{1.0f, 	0.0f , 			0.0f, 			0.0f},
+														{0.0f, 	cos(inclination), 	-sin(inclination), 	0.0f},
+														{0.0f, 	sin(inclination), 	cos(inclination), 	0.0f},
+														{0.0f, 		0.0f, 			0.0f, 			1.0f}});
+
+//translationMatrix = orbitMatrix; //inclinationMatrix*/

@@ -53,7 +53,9 @@ public:
 	float theta = 0;
 	float orbitalDist = 0;
 	float orbitalTheta = 0;
+	float orbitalPhi = 0;
 	float orbitalIncl = 90;
+	float orbitalPeriod = 0;
 	float axialTilt = 90;
 
 	void updateTranslation(float t, glm::mat4 translationMatrix);
