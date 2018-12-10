@@ -38,23 +38,33 @@ void main(void)
 		vec4 normalN = normalize(normal);
 		vec4 lightVectorN = normalize(lightVector);
 		
-		float lightEnhance = 0.5;
-		float ambientLight = 0.7;
+		float lightEnhance = 0.7;
+		float ambientLight = 0.5;
 		vec4 R = -lightVectorN+((2*dot(lightVectorN,normalN))*normalN);
 		vec4 V = normalize(eye-vec4(position.xyz, 0.0f));
 		
 		float NL = dot(normalN,lightVectorN);
 		float RV = dot(R,V);
-		if(RV < 0.0 || NL < 0){
+		if(RV < 0.0 || NL < -0.3){
 			RV = 0;
 		}
 
-		float phi = 4;
+		float phi = 8;
 		float RVP = pow(RV,phi);
 		
 		vec4 white = vec4(1,1,1,0);
-		vec4 colour = (lightEnhance*((NL*FragmentColour)+(0.6*RVP*white)));
+		vec4 colour;
 		
+		
+		if(specialFlag == 1){
+			float waterSpecular = (texture(specularMapTexture,uv).x);
+			colour = (lightEnhance*((NL*FragmentColour)+(0.3*RVP*(4*waterSpecular)*white)));
+			}
+			
+		else
+			colour = (lightEnhance*((NL*FragmentColour)+(0.6*RVP*white)));
+			
+			
 		FragmentColour = vec4(colour.xyz, 0.0f) +(ambientLight*FragmentColour);
 		
 		if(specialFlag == 1){

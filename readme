@@ -14,7 +14,7 @@ Mars: "6"
 Jupiter: "7"
 Saturn: "8"
 Uranus: "9"
-Neptune: "10"
+Neptune: "0"
 
 
 Change time:
@@ -22,3 +22,15 @@ Slow down:  "Q"
 Pause:      "W"
 Speed up:   "E"
 Reset:      "R"
+
+
+Bonus portions compleated:
+Bonus 1:
+    - Specular mapping onto the oceans of Earth
+    - Cloud texture added to Earth
+    -Day/night textures added to Earth
+
+Bonus 2:
+    - All planets added to orrery including Saturn's rings
+    - Ability to change the speed of the animation
+    - Can center the camera on any planet

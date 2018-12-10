@@ -42,7 +42,7 @@ RenderingEngine::RenderingEngine() {
 
 	InitializeTexture(&textureC, "8k_earth_clouds.jpg", GL_TEXTURE_2D);
 	InitializeTexture(&textureDE, "8k_earth_nightmap.jpg", GL_TEXTURE_2D);
-	InitializeTexture(&textureSM, "8k_earth_specular_map.tif", GL_TEXTURE_2D);
+	InitializeTexture(&textureSM, "8k_earth_specular_map.jpg", GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 }
 
@@ -98,6 +98,11 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		glBindTexture(GL_TEXTURE_2D, textureDE.textureID);
 		GLuint darkEarthTextureUniformLocation = glGetUniformLocation(shaderProgram, "darkEarthTexture");
 		glUniform1i(darkEarthTextureUniformLocation, 2);
+
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, textureSM.textureID);
+		GLuint specularMapTextureUniformLocation = glGetUniformLocation(shaderProgram, "specularMapTexture");
+		glUniform1i(specularMapTextureUniformLocation, 3);
 		//////////////////////////////Texture Code/////////////////////////////////
 
 		g.updateTranslation(time);
@@ -221,7 +226,7 @@ bool RenderingEngine::CheckGLErrors() {
 }
 
 void RenderingEngine::zoom(double direction){
-	float cameraMin = 5;
+	float cameraMin = 4;
 	float cameraMax = 400;
 
 	if(cameraMin <= cameraR && direction == 1)
