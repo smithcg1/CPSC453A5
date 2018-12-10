@@ -41,6 +41,8 @@ RenderingEngine::RenderingEngine() {
 	//glPolygoneMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	InitializeTexture(&textureC, "8k_earth_clouds.jpg", GL_TEXTURE_2D);
+	InitializeTexture(&textureDE, "8k_earth_nightmap.jpg", GL_TEXTURE_2D);
+	InitializeTexture(&textureSM, "8k_earth_specular_map.tif", GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 }
 
@@ -87,11 +89,15 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		//Load texture unit number into uniform
 		glUniform1i(uniformLocation, 0);
 
-
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, textureC.textureID);
 		GLuint cloudUniformLocation = glGetUniformLocation(shaderProgram, "cloudTexture");
 		glUniform1i(cloudUniformLocation, 1);
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, textureDE.textureID);
+		GLuint darkEarthTextureUniformLocation = glGetUniformLocation(shaderProgram, "darkEarthTexture");
+		glUniform1i(darkEarthTextureUniformLocation, 2);
 		//////////////////////////////Texture Code/////////////////////////////////
 
 		g.updateTranslation(time);
@@ -215,7 +221,7 @@ bool RenderingEngine::CheckGLErrors() {
 }
 
 void RenderingEngine::zoom(double direction){
-	float cameraMin = 10;
+	float cameraMin = 5;
 	float cameraMax = 400;
 
 	if(cameraMin <= cameraR && direction == 1)

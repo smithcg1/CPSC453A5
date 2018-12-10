@@ -64,6 +64,8 @@ public:
 	GLuint shaderProgram;
 
 	MyTexture textureC;
+	MyTexture textureDE;
+	MyTexture textureSM;
 };
 
 #endif /* RENDERINGENGINE_H_ */

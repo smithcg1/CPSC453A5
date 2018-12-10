@@ -22,6 +22,7 @@ uniform int specialFlag = 0;
 uniform sampler2D imageTexture;
 uniform sampler2D cloudTexture;
 uniform sampler2D darkEarthTexture;
+uniform sampler2D specularMapTexture;
 
 void main(void)
 {
@@ -37,14 +38,14 @@ void main(void)
 		vec4 normalN = normalize(normal);
 		vec4 lightVectorN = normalize(lightVector);
 		
-		float lightEnhance = 0.7;
+		float lightEnhance = 0.5;
 		float ambientLight = 0.7;
 		vec4 R = -lightVectorN+((2*dot(lightVectorN,normalN))*normalN);
 		vec4 V = normalize(eye-vec4(position.xyz, 0.0f));
 		
 		float NL = dot(normalN,lightVectorN);
 		float RV = dot(R,V);
-		if(RV < 0.0 || NL < -0.1){
+		if(RV < 0.0 || NL < 0){
 			RV = 0;
 		}
 
@@ -57,15 +58,15 @@ void main(void)
 		FragmentColour = vec4(colour.xyz, 0.0f) +(ambientLight*FragmentColour);
 		
 		if(specialFlag == 1){
-			FragmentColour = mix(FragmentColour, texture(cloudTexture,uv), 0.5);
-		}
+			if(NL < 0)
+				FragmentColour = mix(FragmentColour, texture(darkEarthTexture,uv)*1.3, -NL+0.1); 
 			
-		//else if(specialFlag == 1){
-			//FragmentColour = vec4(colour.xyz, 1.0f) +(ambientLight*FragmentColour);
-		//
+			float alphaC = (texture(cloudTexture,uv).x) -0.1;
+			if(alphaC < 0)
+				alphaC = 0;
+			FragmentColour = mix(FragmentColour, texture(cloudTexture,uv), alphaC);
+		}
 	}
-	
-	
 }
 
 

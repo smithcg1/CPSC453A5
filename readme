@@ -1,0 +1,24 @@
+Platform: Fedora v28
+Compiler: Eclipse (Photon)
+
+
+Instructions:
+
+Change Planet:
+Sun: "1"
+Mercury: "2"
+Venus: "3"
+Earth: "4"
+Moon: "5"
+Mars: "6"
+Jupiter: "7"
+Saturn: "8"
+Uranus: "9"
+Neptune: "10"
+
+
+Change time:
+Slow down:  "Q"
+Pause:      "W"
+Speed up:   "E"
+Reset:      "R"
