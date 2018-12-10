@@ -35,6 +35,7 @@ public:
 	bool CheckGLErrors();
 
 	float time = 0;
+	float timeInc = 0.01;
 
 	float cameraTheta = 0;			//Longitude
 	float cameraPhi = (M_PI/2);		//Latitude
@@ -54,7 +55,9 @@ public:
 	float eyeTargetY = 0.0;
 	float eyeTargetZ = 0.0;
 	glm::vec3 at = glm::vec3(0.0f, 0.0f, 0.0f);
+
 	void changeFocus(std::string target);
+	void changeTime(int flag);
 
 	//Pointer to the current shader program being used to render
 	GLuint shaderProgram;

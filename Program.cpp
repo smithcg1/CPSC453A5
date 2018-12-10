@@ -140,6 +140,18 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	if (key == GLFW_KEY_0 && action == GLFW_PRESS) {
 		currentEngine->changeFocus("neptune");
 	}
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
+		currentEngine->changeTime(-1);
+	}
+	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+		currentEngine->changeTime(0);
+	}
+	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+		currentEngine->changeTime(1);
+	}
+	if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+		currentEngine->changeTime(-10);
+	}
 }
 
 

@@ -8,7 +8,8 @@ OBJ_SRCS += \
 ../MyEarth.obj \
 ../MyMars.obj \
 ../MySpace.obj \
-../MySun.obj 
+../MySun.obj \
+../earth256.obj 
 
 CPP_SRCS += \
 ../Geometry.cpp \

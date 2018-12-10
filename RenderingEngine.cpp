@@ -47,7 +47,7 @@ RenderingEngine::~RenderingEngine() {
 
 void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 	updateEye();
-	time += 0.01;
+	time += timeInc;
 
 	//Clears the screen to a dark grey background
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
@@ -226,5 +226,18 @@ void RenderingEngine::updateEye(){
 
 void RenderingEngine::changeFocus(std::string target){
 	eyeTarget = target;
+}
+
+void RenderingEngine::changeTime(int flag){
+	if(flag == -1 && timeInc >= 0.001)
+		timeInc = timeInc*0.5;
+	if(flag == 0)
+		timeInc = 0;
+	if(flag == 1)
+		timeInc = timeInc*2.0;
+	if(flag == -10){
+		time = 0;
+		timeInc = 0.01;
+	}
 }
 
