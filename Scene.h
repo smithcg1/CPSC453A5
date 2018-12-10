@@ -34,7 +34,7 @@ private:
 	Geometry eMoon;
 	Geometry mars;
 
-	void createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod);
+	void createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod);
 
 	Geometry readPlanet(Geometry &planet, std::string fileName);
 	void addPlanet(Geometry &planet);

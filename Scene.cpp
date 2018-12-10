@@ -26,12 +26,14 @@
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	generateSceneGraph();
-	//	Geometry object, Texture, axialTilt, planetR, rotationPeriod, orbitR, orbitPeriod
-	//createPlanet(space, "MySpace.obj", "8k_stars.jpg", 			0.0,	500,		0,		0,			0);
-	createPlanet(sun, 	"MySun.obj", "8k_sun.jpg", 				0.0,	695508, 	24.47, 	0, 			0);
-	createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	23.44,	6371, 		1, 		149600000, 	2); // 149600000, 	20
-	createPlanet(eMoon, "MyEMoon.obj", "8k_moon.jpg", 			1.54,	1737, 		27.3, 	384400, 	1); //384400, 	27
-	//createPlanet(mars, "MyMars.obj", "8k_mars.jpg", 			25.19,	3390, 		24.66, 	227900000, 	687);
+	//	Geometry object, Texture, axialTilt, inclination, planetR, rotationPeriod, orbitR, orbitPeriod
+	createPlanet(space, "MySpace.obj", "8k_stars.jpg", 			0.0,	0.0,	500,		0,		0,			0);
+	createPlanet(sun, 	"MySun.obj", "8k_sun.jpg", 				7.25,	0.0,	695508, 	24.47, 	0, 			0);
+
+	//createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	2);
+	createPlanet(earth, "MyEarth.obj", "8k_earth_daymap.jpg", 	23.44,	0.0,	6371, 		1, 		149600000, 	365);
+	createPlanet(eMoon, "MyEMoon.obj", "8k_moon.jpg", 			1.54,	5.145,	1737, 		27.3, 	384400, 	27);
+	createPlanet(mars, "MyMars.obj", "8k_mars.jpg", 			25.19,	1.85,	3390, 		24.66, 	227900000, 	687);
 }
 
 Scene::~Scene() {
@@ -42,9 +44,9 @@ void Scene::displayScene() {
 	renderer->RenderScene(objects);
 }
 
-void Scene::createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+void Scene::createPlanet(Geometry &planet, std::string fileName, std::string textureName, float axialTilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
 	readPlanet(planet, fileName);
-	planet.createMatrices(axialTilt, 20.0f, planetR, rotationPeriod, orbitR, orbitPeriod);
+	planet.createMatrices(axialTilt, inclination, planetR, rotationPeriod, orbitR, orbitPeriod);
 	planet.setTexture(textureName);
 	addPlanet(planet);
 }
@@ -157,9 +159,7 @@ void Scene::generateSceneGraph(){
 	eMoon.name = "eMoon";
 	mars.name = "mars";
 
-	earth.setParent(&sun);
 	eMoon.setParent(&earth);
-	mars.setParent(&sun);
 }
 
 

@@ -37,16 +37,22 @@ Geometry::~Geometry() {
 
 
 void Geometry::createMatrices(float tilt, float inclination, float planetR, float rotationPeriod, long int orbitR, float orbitPeriod){
+	orbitalIncl = inclination;
 	axialTilt = tilt;
 
 	float size = logn(637.0f, planetR);
 	std::cout << "Planet: " << name << "    Size: " << size << std::endl;
 	if(planetR == 500)
 		size = 500;
+	if(name == "eMoon"){
+		size = 0.3375;
+	}
 	scaleMatrix = glm::transpose(glm::mat4{{size, 0.0f, 0.0f, 0.0f},
 											{0.0f, size, 0.0f, 0.0f},
 											{0.0f, 0.0f, size, 0.0f},
 											{0.0f, 0.0f, 0.0f, 1.0f}});
+
+
 
 	theta = (M_PI/rotationPeriod);
 	if(rotationPeriod == 0)
@@ -58,9 +64,12 @@ void Geometry::createMatrices(float tilt, float inclination, float planetR, floa
 
 
 	orbitalTheta = (M_PI/orbitPeriod);
-	orbitalDist = logn(149600000.0f, orbitR) * 30;
+	//rbitalDist = logn(149600000.0f, orbitR) * 30;
 
-	//orbitalDist = glm::pow(orbitR/100000, 0.5);
+	orbitalDist = glm::pow(orbitR/100000, 0.5);
+
+	if(name == "eMoon")
+		orbitalDist = logn(149600000.0f, orbitR)*6;
 
 	std::cout << "Planet: " << name << "    orbitalDist: " << orbitalDist << std::endl;
 	if(orbitR == 0){
@@ -114,7 +123,7 @@ void Geometry::updateTranslation(float t){
 
 
 	if(parent != NULL){
-		orbitMatrix = translationMatrix * parent->translationMatrix;
+		orbitMatrix = orbitMatrix * parent->translationMatrix;
 	}
 
 	glm::mat4 inclinationMatrix = glm::transpose(glm::mat4{{1.0f, 	0.0f , 			0.0f, 			0.0f},
@@ -122,7 +131,7 @@ void Geometry::updateTranslation(float t){
 															{0.0f, 	sin(inclination), 	cos(inclination), 	0.0f},
 															{0.0f, 		0.0f, 			0.0f, 			1.0f}});
 
-	translationMatrix = orbitMatrix;
+	translationMatrix = inclinationMatrix*orbitMatrix;
 }
 
 

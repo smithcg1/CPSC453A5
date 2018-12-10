@@ -38,7 +38,7 @@ public:
 
 	float cameraTheta = 0;			//Longitude
 	float cameraPhi = (M_PI/2);		//Latitude
-	float cameraR = 10;
+	float cameraR = 60;
 
 	float cameraX = 1.2;
 	float cameraY = 0;

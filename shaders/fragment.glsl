@@ -28,7 +28,7 @@ void main(void)
     
 	FragmentColour = texture(imageTexture, uv);
 	
-	/*
+	///*
 	if(2.5 <= length(position) && length(position) <= 350){
 		vec4 lightVector = (lightSource - position);
 		vec4 normalN = normalize(normal);
@@ -44,14 +44,14 @@ void main(void)
 			RV = 0;
 		}
 
-		float phi = 2;
+		float phi = 4;
 		float RVP = pow(RV,phi);
 		
 		vec4 white = vec4(1,1,1,0);
-		vec4 colour = ambientLight*((NL*FragmentColour)+(4*RVP*white));
+		vec4 colour = ambientLight*((NL*FragmentColour)+(0.6*RVP*white));
 		
 		FragmentColour = vec4(colour.xyz, 0.0f);
-	}*/
+	}//*/
 	
 	
 }

@@ -111,10 +111,34 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		//currentEngine->changeFocus("sun");
+		currentEngine->changeFocus("sun");
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		//currentEngine->changeFocus("earth");
+		currentEngine->changeFocus("mercury");
+	}
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("venis");
+	}
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("earth");
+	}
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("eMoon");
+	}
+	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("mars");
+	}
+	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("jupiter");
+	}
+	if (key == GLFW_KEY_8 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("saturn");
+	}
+	if (key == GLFW_KEY_9 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("uranus");
+	}
+	if (key == GLFW_KEY_0 && action == GLFW_PRESS) {
+		currentEngine->changeFocus("neptune");
 	}
 }
 

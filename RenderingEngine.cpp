@@ -8,6 +8,7 @@
 #include "RenderingEngine.h"
 
 #include <iostream>
+#include <GLFW/glfw3.h>
 
 //cpp file purposely included here because it just contains some global functions
 #include "ShaderTools.h"
@@ -58,7 +59,7 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 
 	for (Geometry& g : objects) {
 		if(g.name == eyeTarget){
-			//eyeTargetX = g.
+			at = glm::vec3(g.translationMatrix[3][0],g.translationMatrix[3][1],g.translationMatrix[3][2]);
 		}
 
 		if(g.name == "eMoon"){
@@ -200,8 +201,6 @@ void RenderingEngine::zoom(double direction){
 
 	if(cameraR <= cameraMax && direction == -1)
 		cameraR = cameraR*1.1;
-
-	updateEye();
 }
 
 void RenderingEngine::rotate(double xChange, double yChange){
@@ -212,8 +211,6 @@ void RenderingEngine::rotate(double xChange, double yChange){
 
 	if(0 < cameraPhi+yChangeRads && cameraPhi+yChangeRads < M_PI)
 		cameraPhi += yChangeRads;
-
-	//updateEye();
 }
 
 void RenderingEngine::updateEye(){
@@ -221,7 +218,7 @@ void RenderingEngine::updateEye(){
 	cameraY = cameraR*sin(cameraTheta)*sin(cameraPhi);
 	cameraZ = cameraR*cos(cameraPhi);
 
-	glm::vec3 eye = {cameraX, cameraY, cameraZ};
+	glm::vec3 eye = {at[0]+cameraX, at[1]+cameraY, at[2]+cameraZ};
 	//glm::vec3 at = {eyeTargetX, eyeTargetY, eyeTargetZ};
 	glm::vec3 up = {0.0f, 0.0f, 1.0f};
 	viewMatrix = glm::lookAt(eye, at, up);
