@@ -99,7 +99,7 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		GLuint planetTransformLocation = glGetUniformLocation(shaderProgram, "planetTransform");
 		glUniformMatrix4fv(planetTransformLocation, 1, GL_FALSE, 	glm::value_ptr(modelMatrix));
 
-		glm::vec4 eye = glm::vec4(cameraX,cameraY,cameraZ, 0.0f);
+		glm::vec4 eye = glm::vec4(at[0]+cameraX, at[1]+cameraY, at[2]+cameraZ, 0.0f);
 		//std::cout << "X eye: " << cameraX << "Y eye: " << cameraY<< "Z eye: " << cameraZ << std::endl;
 		GLuint eyeLocation = glGetUniformLocation(shaderProgram, "eye");
 		glUniform4fv(eyeLocation, 1, 	glm::value_ptr(eye));

@@ -34,13 +34,14 @@ void main(void)
 		vec4 normalN = normalize(normal);
 		vec4 lightVectorN = normalize(lightVector);
 		
-		float ambientLight = 2.0;
+		float lightEnhance = 1.0;
+		float ambientLight = 0.7;
 		vec4 R = -lightVectorN+((2*dot(lightVectorN,normalN))*normalN);
 		vec4 V = normalize(eye-vec4(position.xyz, 0.0f));
 		
 		float NL = dot(normalN,lightVectorN);
 		float RV = dot(R,V);
-		if(RV < 0.0 || NL < 0){
+		if(RV < 0.0 || NL < -0.1){
 			RV = 0;
 		}
 
@@ -48,9 +49,9 @@ void main(void)
 		float RVP = pow(RV,phi);
 		
 		vec4 white = vec4(1,1,1,0);
-		vec4 colour = ambientLight*((NL*FragmentColour)+(0.6*RVP*white));
+		vec4 colour = (lightEnhance*((NL*FragmentColour)+(0.6*RVP*white)));
 		
-		FragmentColour = vec4(colour.xyz, 0.0f);
+		FragmentColour = vec4(colour.xyz, 0.0f) +(ambientLight*FragmentColour);
 	}//*/
 	
 	

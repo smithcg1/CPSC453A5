@@ -69,7 +69,7 @@ void Geometry::createMatrices(float tilt, float inclination, float planetR, floa
 	orbitalDist = glm::pow(orbitR/100000, 0.5);
 
 	if(name == "eMoon")
-		orbitalDist = logn(149600000.0f, orbitR)*6;
+		orbitalDist = logn(149600000.0f, orbitR)*4;
 
 	std::cout << "Planet: " << name << "    orbitalDist: " << orbitalDist << std::endl;
 	if(orbitR == 0){

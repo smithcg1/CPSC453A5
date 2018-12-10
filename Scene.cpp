@@ -37,8 +37,8 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	createPlanet(mars, "earth64.obj", "8k_mars.jpg", 				25.19,	1.85,	3390, 		24.66, 	227900000, 	687);
 	createPlanet(jupiter, "earth64.obj", "8k_jupiter.jpg", 			3.0,	1.31,	69911, 		0.41, 	778600000, 	4380);
 	createPlanet(saturn, "earth64.obj", "8k_saturn.jpg", 			26.7,	2.49,	58232, 		0.427, 	1434000000, 10585);
-	createPlanet(uranus, "earth64.obj", "2k_uranus.jpg", 			98.0,	0.77,	25362, 		0.719, 	287100000, 	30660);
-	createPlanet(neptune, "earth64.obj", "2k_neptune.jpg", 			28.32,	1.77,	24622, 		0.674, 	449500000, 	60225);
+	createPlanet(uranus, "earth64.obj", "2k_uranus.jpg", 			98.0,	0.77,	25362, 		0.719, 	2871000000, 30660);
+	createPlanet(neptune, "earth64.obj", "2k_neptune.jpg", 			28.32,	1.77,	24622, 		0.674, 	4495000000, 60225);
 }
 
 Scene::~Scene() {
