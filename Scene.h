@@ -33,6 +33,7 @@ private:
 	Geometry mercury;
 	Geometry venus;
 	Geometry earth;
+	Geometry clouds;
 	Geometry eMoon;
 	Geometry mars;
 	Geometry jupiter;

@@ -9,7 +9,8 @@ OBJ_SRCS += \
 ../MyMars.obj \
 ../MySpace.obj \
 ../MySun.obj \
-../earth64.obj 
+../earth64.obj \
+../saturn.obj 
 
 CPP_SRCS += \
 ../Geometry.cpp \

@@ -62,6 +62,8 @@ public:
 
 	//Pointer to the current shader program being used to render
 	GLuint shaderProgram;
+
+	MyTexture textureC;
 };
 
 #endif /* RENDERINGENGINE_H_ */

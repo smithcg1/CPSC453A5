@@ -17,8 +17,11 @@ in vec4 normal;
 out vec4 FragmentColour;
 
 uniform vec4 eye;
+uniform int specialFlag = 0;
 
 uniform sampler2D imageTexture;
+uniform sampler2D cloudTexture;
+uniform sampler2D darkEarthTexture;
 
 void main(void)
 {
@@ -28,13 +31,13 @@ void main(void)
     
 	FragmentColour = texture(imageTexture, uv);
 	
-	///*
+	
 	if(2.5 <= length(position) && length(position) <= 350){
 		vec4 lightVector = (lightSource - position);
 		vec4 normalN = normalize(normal);
 		vec4 lightVectorN = normalize(lightVector);
 		
-		float lightEnhance = 1.0;
+		float lightEnhance = 0.7;
 		float ambientLight = 0.7;
 		vec4 R = -lightVectorN+((2*dot(lightVectorN,normalN))*normalN);
 		vec4 V = normalize(eye-vec4(position.xyz, 0.0f));
@@ -52,42 +55,18 @@ void main(void)
 		vec4 colour = (lightEnhance*((NL*FragmentColour)+(0.6*RVP*white)));
 		
 		FragmentColour = vec4(colour.xyz, 0.0f) +(ambientLight*FragmentColour);
-	}//*/
+		
+		if(specialFlag == 1){
+			FragmentColour = mix(FragmentColour, texture(cloudTexture,uv), 0.5);
+		}
+			
+		//else if(specialFlag == 1){
+			//FragmentColour = vec4(colour.xyz, 1.0f) +(ambientLight*FragmentColour);
+		//
+	}
 	
 	
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    vec4 red = vec4(1,0,0,0);
-    vec4 green = vec4(0,1,0,0);
-    vec4 blue = vec4(0,0,1,0);
-    
-    vec4 purple = vec4(1,0,1,0);
-    
-	if(angle>=0.5){	
-		FragmentColour = purple;
-	}
-	else if(angle>=0){	
-		FragmentColour = green;
-	}
-	else if (angle<0){
-		FragmentColour = red;
-	}	
-	else{
-		FragmentColour = blue;
-	}*/

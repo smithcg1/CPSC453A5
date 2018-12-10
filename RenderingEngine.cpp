@@ -39,6 +39,9 @@ RenderingEngine::RenderingEngine() {
 
 	glEnable(GL_DEPTH_TEST);
 	//glPolygoneMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	InitializeTexture(&textureC, "8k_earth_clouds.jpg", GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
 }
 
 RenderingEngine::~RenderingEngine() {
@@ -59,6 +62,8 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 	glUseProgram(shaderProgram);
 
 	for (Geometry& g : objects) {
+
+
 		if(g.name == eyeTarget){
 			at = glm::vec3(g.translationMatrix[3][0],g.translationMatrix[3][1],g.translationMatrix[3][2]);
 		}
@@ -81,6 +86,12 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		GLuint uniformLocation = glGetUniformLocation(shaderProgram, "imageTexture");
 		//Load texture unit number into uniform
 		glUniform1i(uniformLocation, 0);
+
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, textureC.textureID);
+		GLuint cloudUniformLocation = glGetUniformLocation(shaderProgram, "cloudTexture");
+		glUniform1i(cloudUniformLocation, 1);
 		//////////////////////////////Texture Code/////////////////////////////////
 
 		g.updateTranslation(time);
@@ -89,9 +100,19 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		glm::mat4 modelMatrix = g.translationMatrix * g.rotationMatrix * g.scaleMatrix;
 		glm::mat4 transformMatrix = perspectiveMatrix * viewMatrix * modelMatrix;
 
+		GLuint specialFlagLocation = glGetUniformLocation(shaderProgram, "specialFlag");
+		if(g.name == "earth")
+			glUniform1i(specialFlagLocation, 	1);
+
+		//else if(g.name == "darkEarth")
+			//glUniform1i(specialFlagLocation, 	2);
+
+		else
+			glUniform1i(specialFlagLocation, 	0);
+
+
 		GLuint transformLocation = glGetUniformLocation(shaderProgram, "transform");;
 		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, 	glm::value_ptr(transformMatrix));
-
 
 		GLuint planetRotationLocation = glGetUniformLocation(shaderProgram, "planetRotation");
 		glUniformMatrix4fv(planetRotationLocation, 1, GL_FALSE, 	glm::value_ptr(g.rotationMatrix));
@@ -194,7 +215,7 @@ bool RenderingEngine::CheckGLErrors() {
 }
 
 void RenderingEngine::zoom(double direction){
-	float cameraMin = 0.2;
+	float cameraMin = 10;
 	float cameraMax = 400;
 
 	if(cameraMin <= cameraR && direction == 1)
