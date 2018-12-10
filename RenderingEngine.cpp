@@ -122,6 +122,9 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 			glUniform1i(specialFlagLocation, 	0);
 
 
+		GLuint cTimeLocation = glGetUniformLocation(shaderProgram, "cTime");;
+		glUniform1f(cTimeLocation, time);
+
 		GLuint transformLocation = glGetUniformLocation(shaderProgram, "transform");;
 		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, 	glm::value_ptr(transformMatrix));
 
@@ -135,12 +138,6 @@ void RenderingEngine::RenderScene(std::vector<Geometry>& objects) {
 		//std::cout << "X eye: " << cameraX << "Y eye: " << cameraY<< "Z eye: " << cameraZ << std::endl;
 		GLuint eyeLocation = glGetUniformLocation(shaderProgram, "eye");
 		glUniform4fv(eyeLocation, 1, 	glm::value_ptr(eye));
-
-/*
-		for(glm::vec4 normal : g.normals){
-			glm::vec4 normalTransf = g.rotationMatrix * normal;
-	  		std::cout << "planet.normal1x: " << normalTransf[0] << "  planet.normal1y: " << normalTransf[1] << "  planet.normal1z: " << normalTransf[2] << std::endl;
-		}*/
 
 
 		glBindVertexArray(g.vao);
@@ -262,7 +259,7 @@ void RenderingEngine::changeFocus(std::string target){
 }
 
 void RenderingEngine::changeTime(int flag){
-	if(flag == -1 && timeInc >= 0.001)
+	if(flag == -1 && timeInc >= 0.0001)
 		timeInc = timeInc*0.5;
 	if(flag == 0){
 		if(timeFlag == 0)
@@ -270,7 +267,7 @@ void RenderingEngine::changeTime(int flag){
 		else
 			timeFlag = 0;
 	}
-	if(flag == 1)
+	if(flag == 1 && timeInc < 10)
 		timeInc = timeInc*2.0;
 	if(flag == -10){
 		time = 0;

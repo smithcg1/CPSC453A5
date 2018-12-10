@@ -24,6 +24,8 @@ uniform sampler2D cloudTexture;
 uniform sampler2D darkEarthTexture;
 uniform sampler2D specularMapTexture;
 
+uniform float cTime = 0;
+
 void main(void)
 {
     // write colour output without modification
@@ -70,11 +72,19 @@ void main(void)
 		if(specialFlag == 1){
 			if(NL < 0)
 				FragmentColour = mix(FragmentColour, texture(darkEarthTexture,uv)*1.3, -NL+0.1); 
+
 			
-			float alphaC = (texture(cloudTexture,uv).x) -0.1;
+			float uvx = uv.x-cTime;
+			while(uvx < 0){
+				uvx = uvx - floor(uvx);
+			}
+			
+			
+			float alphaC = (texture(cloudTexture,vec2(uvx, uv.y)).x) -0.1;
 			if(alphaC < 0)
 				alphaC = 0;
-			FragmentColour = mix(FragmentColour, texture(cloudTexture,uv), alphaC);
+				
+			FragmentColour = mix(FragmentColour, texture(cloudTexture,vec2(uvx, uv.y)), alphaC);
 		}
 	}
 }
